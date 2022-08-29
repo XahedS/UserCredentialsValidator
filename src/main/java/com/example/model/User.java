@@ -1,46 +1,36 @@
 package com.example.model;
 
-import com.example.exception.InvalidEmailException;
-import lombok.*;
-import org.springframework.stereotype.Component;
+import com.example.exception.InvalidPassword;
+import com.example.exception.UserNotFoundException;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
-//import javax.persistence.Entity;
-//import javax.persistence.GeneratedValue;
-//import javax.persistence.GenerationType;
-//import javax.persistence.Id;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
 
 //@AllArgsConstructor
 //@NoArgsConstructor
 //@Getter
 //@Setter
 //@ToString
-//@Entity
-@Component
+@Entity
+@Validated
 public class User {
-
     public User(){
-
     }
-
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
-//    @NonNull
-//    @NotBlank(message = "username is mandatory")
-    private String userName;
-
-//    @NonNull
-//    @NotEmpty
-//    @Email
     private String email;
-
-//    @ValidPassword
-//    @NonNull
-//    @NotBlank(message = "password is mandatory")
+    @Pattern(regexp = "^[a-zA-Z0-9]*$",//"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$",//regexp = "^[a-zA-Z0-9]{6,12}$",
+                    message = "username must be of 6 to 12 length with no special characters")
+    private String userName;
+    @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$",
+            message = "password must contain atleast 1 uppercase, 1 lowercase, 1 digit & should be of min length 8 ")
     private String password;
 
     public int getId() {
@@ -48,16 +38,14 @@ public class User {
     }
 
     public String getUserName() {
-
         return userName;
     }
 
-    public String getEmail() throws InvalidEmailException {
-
-        return email;
+    public String getPassword(){
+        return password;
     }
 
-    public String getPassword() {
-        return password;
+    public String getEmail() {
+        return email;
     }
 }
