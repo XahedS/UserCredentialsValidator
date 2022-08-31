@@ -18,12 +18,10 @@ public class GenericException {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public HashMap<String, String> handleException(Exception ex) {
-        System.out.println("I am in Generic Eception ------------<<<<<>>>>>>>>>>>>>>>-------------");
         HashMap hashMap = new HashMap();
         hashMap.put("error", ex.getMessage());
         hashMap.put("trace", Arrays.toString(ex.getStackTrace()));
         return hashMap;
-//        return ex.getMessage();
     }
 
     @ExceptionHandler(InvalidPassword.class)
@@ -33,16 +31,12 @@ public class GenericException {
         HashMap hashMap = new HashMap();
         hashMap.put("error", ex.getMessage());
         return hashMap;
-//        return ex.getMessage();
     }
 
     @ExceptionHandler( MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public HashMap<String, String> handleException( MethodArgumentNotValidException ex) {
-        System.out.println("I think ConstraintViolationException based method is not called");
-
         HashMap hashMap = new HashMap();
-//        hashMap.put("error", ex.getMessage());
         int size = ex.getBindingResult().getAllErrors().size();
         for(int i = 0; i<size; i++)
             hashMap.put("error " + i, ex.getBindingResult().getAllErrors().get(i).getDefaultMessage());

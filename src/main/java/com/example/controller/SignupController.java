@@ -20,9 +20,7 @@ public class SignupController {
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
     public String createUser(@Valid @RequestBody UserCredentials user) throws UserNotFoundException, InvalidPassword {
-        System.out.println(" I believe I dont visit UserService class  ++++++++++++SingupController++++++++++++");
         String replyMessage = userService.createUser(user);
         return replyMessage;
-//        return new ResponseEntity<User>(savedUser, HttpStatus.CREATED);
     }
 }
