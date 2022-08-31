@@ -2,7 +2,7 @@ package com.example.controller;
 
 import com.example.exception.InvalidPassword;
 import com.example.exception.UserNotFoundException;
-import com.example.model.User;
+import com.example.model.UserCredentials;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,10 +19,10 @@ public class SignupController {
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-    public User createUser(@Valid @RequestBody User user) throws UserNotFoundException, InvalidPassword {
+    public String createUser(@Valid @RequestBody UserCredentials user) throws UserNotFoundException, InvalidPassword {
         System.out.println(" I believe I dont visit UserService class  ++++++++++++SingupController++++++++++++");
-        User savedUser = userService.createUser(user);
-        return savedUser;
+        String replyMessage = userService.createUser(user);
+        return replyMessage;
 //        return new ResponseEntity<User>(savedUser, HttpStatus.CREATED);
     }
 }

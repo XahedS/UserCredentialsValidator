@@ -2,41 +2,31 @@ package com.example.service;
 
 import com.example.exception.InvalidPassword;
 import com.example.exception.UserNotFoundException;
-import com.example.model.User;
+import com.example.model.UserCredentials;
+import com.example.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import javax.validation.constraints.Pattern;
+import org.w3c.dom.stylesheets.LinkStyle;
+
+import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class UserService {
 
-//    @Autowired
-//    private UserRepository userRepository;
+    @Autowired
+    public UserRepository userRepository;
 
-//    @Transactional
-    public User createUser(User user) throws UserNotFoundException, InvalidPassword {
+    @Transactional
+    public String createUser(UserCredentials user) throws UserNotFoundException, InvalidPassword {
 
-        //        if(user.getUserName().equals(null))
-//        {
-//            throw new UserNotFoundException("User name is null");
-//        }
-
-//        if(!user.getEmail().contains("@")) {
-//            throw new InvalidEmailException("Invalid Email");
-//        }
-//        return userRepository.save(user);
-        return user;
-    }
-
-    private boolean validateUserCredentials(User user)  throws UserNotFoundException, InvalidPassword {
-        @Pattern(regexp = "^[a-zA-Z0-9]*$",//"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$",//regexp = "^[a-zA-Z0-9]{6,12}$",
-                message = "username must be of 6 to 12 length with no special characters")
-        String name = user.getUserName();
-
-        @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$",
-                message = "password must contain atleast 1 uppercase, 1 lowercase, 1 digit & should be of min length 8 ")
-        String passowrd = user.getPassword();
-
-        return true;
-
+        List<UserCredentials> userCredentials = userRepository.findByNameEquals(user.getName());
+        if (userCredentials.stream().filter(userCredential -> userCredential.getName().equals(user.getName())).count() != 0) {
+            return "User already registered";
+        } else {
+            userRepository.save(user);
+            user.setRegistrationStatus(true);
+            return "User registered successfully";
+        }
     }
 }

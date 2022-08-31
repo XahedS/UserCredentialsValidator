@@ -47,7 +47,6 @@ public class GenericException {
         for(int i = 0; i<size; i++)
             hashMap.put("error " + i, ex.getBindingResult().getAllErrors().get(i).getDefaultMessage());
         return hashMap;
-//        return ex.getMessage();
     }
 
     @ExceptionHandler(UserNotFoundException.class)
