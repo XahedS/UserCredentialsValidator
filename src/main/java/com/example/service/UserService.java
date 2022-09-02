@@ -1,31 +1,33 @@
 package com.example.service;
 
-import com.example.exception.InvalidPassword;
+import com.example.exception.InvalidPasswordException;
 import com.example.exception.UserNotFoundException;
-import com.example.model.UserCredentials;
+import com.example.model.ApiRepsone;
+import com.example.model.UserCredential;
 import com.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserService {
 
     @Autowired
     public UserRepository userRepository;
+//    @Autowired
+    public ApiRepsone apiRepsone = new ApiRepsone();
 
-    @Transactional
-    public String createUser(UserCredentials user) throws UserNotFoundException, InvalidPassword {
-
-        List<UserCredentials> userCredentials = userRepository.findByNameEquals(user.getName());
-        if (userCredentials.stream().filter(userCredential -> userCredential.getName().equals(user.getName())).count() != 0) {
-            return "User already registered";
+//    @Transactional
+    public ApiRepsone createUser(UserCredential user) throws UserNotFoundException, InvalidPasswordException {
+        if (userRepository.findByName(user.getName()).isPresent()) {
+            apiRepsone.setResponseMessage("User: " + user.getName() +" already registered");
+            return apiRepsone; //response should be an object
         } else {
             userRepository.save(user);
             user.setRegistrationStatus(true);
-            return "User registered successfully";
+            apiRepsone.setResponseMessage("User: " + user.getName() +" registered successfully");
+            return apiRepsone; //response should be an object
         }
     }
 }

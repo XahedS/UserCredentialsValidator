@@ -6,13 +6,13 @@ import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 
 @Entity
-@Table(name="UserCredentials")
-@Validated
-public class UserCredentials {
-    public UserCredentials(){
+@Table(name="usercredential")
+//@Validated
+public class UserCredential {
+    public UserCredential(){
     }
 
-    public UserCredentials(int id, String email, String userName, String password, boolean registrationStatus) {
+    public UserCredential(int id, String email, String userName, String password, boolean registrationStatus) {
         this.id = id;
         this.email = email;
         this.name = userName;
@@ -24,9 +24,11 @@ public class UserCredentials {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private boolean registrationStatus = false;
+    @Column(unique = true)
     private String email;
-    @Pattern(regexp = "^[a-zA-Z0-9]*$",//"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$",//regexp = "^[a-zA-Z0-9]{6,12}$",
-                    message = "username must be of 6 to 12 length with no special characters")
+    @Pattern(regexp = "^[a-zA-Z0-9]*$",
+                    message = "username must be of 6 to 12 length with no special characters") //Put the messages in external file; message.properties
+    @Column(name = "username", unique = true)
     private String name;
     @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$",
             message = "password must contain atleast 1 uppercase, 1 lowercase, 1 digit & should be of min length 8 ")

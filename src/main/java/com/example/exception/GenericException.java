@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import javax.validation.ConstraintViolationException;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -24,9 +23,9 @@ public class GenericException {
         return hashMap;
     }
 
-    @ExceptionHandler(InvalidPassword.class)
+    @ExceptionHandler(InvalidPasswordException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public HashMap<String, String> handleException(InvalidPassword ex) {
+    public HashMap<String, String> handleException(InvalidPasswordException ex) {
 
         HashMap hashMap = new HashMap();
         hashMap.put("error", ex.getMessage());
