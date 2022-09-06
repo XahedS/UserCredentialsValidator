@@ -28,6 +28,7 @@ public class UserCredential {
             message = "password must contain atleast 1 uppercase, 1 lowercase, 1 digit & should be of min length 8 ")
     private String password;
 
+
     public UserCredential(){
     }
 
@@ -77,5 +78,16 @@ public class UserCredential {
 
     public void setRegistrationStatus(boolean registrationStatus) {
         this.registrationStatus = registrationStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "UserCredential{" +
+                "id=" + id +
+                ", registrationStatus=" + registrationStatus +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

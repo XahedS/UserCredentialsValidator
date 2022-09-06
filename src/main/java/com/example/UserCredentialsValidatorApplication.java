@@ -1,5 +1,6 @@
 package com.example;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +25,10 @@ public class UserCredentialsValidatorApplication {
 		SpringApplication.run(UserCredentialsValidatorApplication.class, args);
 	}
 
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
+	}
 	@Bean
 	public Docket swaggerConfiguration(){
 		return new Docket(DocumentationType.SWAGGER_2)
